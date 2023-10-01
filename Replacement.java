@@ -20,11 +20,9 @@ public class Replacement<T,R> {
     }
 
     public Optional<R> replace(T n) {
-        R out = null;
-        if (predicate.test(n)) {
-            out = mapper.apply(n);
-        }
-        return Optional.ofNullable(out);
+        return Optional.ofNullable(n)
+            .filter(predicate::test)
+            .map(mapper::apply);
     }
 
     private Replacement(Function<T, R> mapper, Predicate<T> predicate) {
